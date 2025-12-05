@@ -76,19 +76,31 @@ psql --version
 redis-cli --version
 ```
 
-### 2. 项目初始化
+### 2. 项目初始化（使用 CookieCutter 模板）
 
 ```bash
-# 克隆项目（或创建新项目）
-git clone <repository>
-cd im-service
+# 1. 安装 CookieCutter
+pip install cookiecutter
 
-# 创建虚拟环境
+# 2. 使用脚手架模板生成项目
+cookiecutter /Users/m684620/work/github_GD25/gd25-arch-backend-python/cookiecutter-gd25-arch-backend-python
+
+# 3. 按提示输入项目信息
+# project_name: gd25-biz-im-python
+# include_celery: y
+# include_websocket: y
+# 其他配置按需填写
+
+# 4. 进入生成的项目目录
+cd gd25-biz-im-python
+
+# 5. 创建虚拟环境（可选）
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 安装依赖
+# 6. 安装依赖
 pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### 3. 配置环境变量

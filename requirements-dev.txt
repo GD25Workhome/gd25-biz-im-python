@@ -1,0 +1,21 @@
+# FastAPI 后端脚手架 - 开发依赖
+# Python 3.10+
+
+# 包含核心依赖
+-r requirements.txt
+
+# 代码质量
+black>=23.11.0,<24.0.0
+flake8>=6.1.0,<7.0.0
+isort>=5.12.0,<6.0.0
+mypy>=1.7.0,<2.0.0
+
+# 测试
+pytest>=7.4.0,<8.0.0
+pytest-asyncio>=0.21.0,<1.0.0
+pytest-cov>=4.1.0,<5.0.0
+httpx>=0.25.0,<1.0.0  # 用于测试 HTTP 请求
+
+# 开发工具
+python-dotenv>=1.0.0,<2.0.0  # 环境变量管理
+
