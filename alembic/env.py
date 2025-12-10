@@ -16,13 +16,21 @@ from alembic import context
 # 添加项目根目录到 sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+# 注意：在生成迁移脚本时，如果配置缺失，使用占位符值
+# 必须在导入配置之前设置环境变量
+import os
+if not os.getenv("AI_SERVICE_URL"):
+    os.environ["AI_SERVICE_URL"] = "http://placeholder.ai"
+if not os.getenv("AI_SERVICE_API_KEY"):
+    os.environ["AI_SERVICE_API_KEY"] = "placeholder_key"
+
 # 导入配置和基础模型
 from app.config import settings
 from app.db.base import Base
 
 # 导入所有模型，确保 Alembic 能够检测到它们
 # 注意：必须导入所有模型类，否则 Alembic 无法自动生成迁移脚本
-from app.models import User, Message, AIChatRecord  # noqa: F401
+from app.models import User, Group, GroupMember, Message, AIInteractionRecord  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

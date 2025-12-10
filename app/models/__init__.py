@@ -5,8 +5,10 @@
 """
 
 from app.models.user import User
+from app.models.group import Group
+from app.models.group_member import GroupMember
 from app.models.message import Message
-from app.models.ai_chat_record import AIChatRecord
+from app.models.ai_interaction_record import AIInteractionRecord
 
-__all__ = ["User", "Message", "AIChatRecord"]
+__all__ = ["User", "Group", "GroupMember", "Message", "AIInteractionRecord"]
 

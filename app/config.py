@@ -283,47 +283,22 @@ class IMSettings(Settings):
     在脚手架配置基础上，扩展 AI 相关配置项。
     """
     
-    # ==================== AI 相关配置 ====================
-    ai_provider: str = Field(
-        default="openai",
-        description="AI 服务提供商：openai, anthropic, deepseek",
+    # ==================== AI 服务配置（AI封装层使用）====================
+    ai_service_url: str = Field(
+        ...,
+        description="外部AI服务URL",
     )
     
-    @field_validator("ai_provider")
-    @classmethod
-    def validate_ai_provider(cls, v: str) -> str:
-        """验证 AI 服务提供商"""
-        allowed = ["openai", "anthropic", "deepseek"]
-        if v.lower() not in allowed:
-            raise ValueError(f"ai_provider 必须是 {allowed} 之一")
-        return v.lower()
-    
-    ai_api_key: Optional[str] = Field(
-        default=None,
-        description="AI API 密钥",
+    ai_service_api_key: str = Field(
+        ...,
+        description="外部AI服务API密钥",
     )
     
-    ai_base_url: Optional[str] = Field(
-        default=None,
-        description="AI API 基础 URL（可选，某些提供商需要自定义 URL）",
-    )
-    
-    ai_model: str = Field(
-        default="gpt-3.5-turbo",
-        description="AI 模型名称",
-    )
-    
-    ai_temperature: float = Field(
-        default=0.7,
-        ge=0,
-        le=2,
-        description="AI 温度参数（控制回复的随机性）",
-    )
-    
-    ai_max_tokens: int = Field(
-        default=1000,
+    ai_service_timeout: int = Field(
+        default=30,
         ge=1,
-        description="AI 最大 token 数",
+        le=300,
+        description="AI服务请求超时时间（秒）",
     )
 
 

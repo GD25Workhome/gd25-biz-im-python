@@ -1,12 +1,10 @@
 """
-用户模型示例
+用户模型
 
-这是一个完整的用户模型示例，展示如何使用 BaseModel 创建业务模型。
+定义用户表的数据模型，用于存储用户信息和用户身份标签。
 """
 
-from sqlalchemy import Column, String, Integer, Boolean, DateTime
-from sqlalchemy.orm import relationship
-
+from sqlalchemy import Column, String, Index
 from app.db.base import BaseModel
 
 
@@ -14,6 +12,7 @@ class User(BaseModel):
     """
     用户模型
     
+    用于存储用户信息和用户身份标签（PATIENT/DOCTOR/AI_ASSISTANT）。
     继承自 BaseModel，自动包含 id、created_at、updated_at 字段。
     
     示例：
@@ -22,7 +21,7 @@ class User(BaseModel):
         from app.db.session import get_db_session
         
         db = get_db_session()
-        user = User(name="张三", email="zhangsan@example.com")
+        user = User(user_id="user_001", username="张三", user_role="PATIENT")
         db.add(user)
         db.commit()
         ```
@@ -30,47 +29,48 @@ class User(BaseModel):
     
     __tablename__ = "users"
     
-    # 用户名
-    name = Column(
-        String(100),
-        nullable=False,
-        comment="用户名",
-        index=True,  # 添加索引以提高查询性能
-    )
-    
-    # 邮箱（唯一）
-    email = Column(
-        String(255),
+    # 用户唯一标识
+    user_id = Column(
+        String(48),
         unique=True,
         nullable=False,
-        comment="邮箱地址",
-        index=True,  # 添加索引以提高查询性能
+        comment="用户唯一标识",
     )
     
-    # 年龄（可选）
-    age = Column(
-        Integer,
-        nullable=True,
-        comment="年龄",
-    )
-    
-    # 是否激活
-    is_active = Column(
-        Boolean,
-        default=True,
+    # 用户名
+    username = Column(
+        String(64),
         nullable=False,
-        comment="是否激活",
-        index=True,  # 添加索引以提高查询性能
+        comment="用户名",
     )
     
-    # 最后登录时间（可选）
-    last_login_at = Column(
-        DateTime(timezone=True),
-        nullable=True,
-        comment="最后登录时间",
+    # 用户身份：PATIENT(患者)/DOCTOR(医生)/AI_ASSISTANT(医生AI助手)
+    user_role = Column(
+        String(32),
+        nullable=False,
+        default="PATIENT",
+        comment="用户身份：PATIENT(患者)/DOCTOR(医生)/AI_ASSISTANT(医生AI助手)",
     )
+    
+    # 添加索引以提高查询性能
+    __table_args__ = (
+        Index("idx_user_id", "user_id"),
+        Index("idx_user_role", "user_role"),
+    )
+    
+    def is_patient(self) -> bool:
+        """判断是否为患者"""
+        return self.user_role == "PATIENT"
+    
+    def is_doctor(self) -> bool:
+        """判断是否为医生"""
+        return self.user_role == "DOCTOR"
+    
+    def is_ai_assistant(self) -> bool:
+        """判断是否为AI助手"""
+        return self.user_role == "AI_ASSISTANT"
     
     def __repr__(self) -> str:
         """返回模型的字符串表示"""
-        return f"<User(id={self.id}, name='{self.name}', email='{self.email}')>"
+        return f"<User(id={self.id}, user_id='{self.user_id}', username='{self.username}', user_role='{self.user_role}')>"
 
