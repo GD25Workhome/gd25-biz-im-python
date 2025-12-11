@@ -6,11 +6,13 @@ WebSocket 模块
 
 from app.websocket.manager import ConnectionManager, manager
 from app.websocket.handler import WebSocketHandler, SimpleWebSocketHandler
+from app.websocket.im_handler import IMWebSocketHandler
 
 __all__ = [
     "ConnectionManager",
     "manager",
     "WebSocketHandler",
     "SimpleWebSocketHandler",
+    "IMWebSocketHandler",
 ]
 

@@ -11,10 +11,20 @@ from app.repositories.base import (
     ModelType,
 )
 
+from app.repositories.user_repository import UserRepository
+from app.repositories.group_repository import GroupRepository
+from app.repositories.group_member_repository import GroupMemberRepository
+from app.repositories.message_repository import MessageRepository
+
 __all__ = [
+    # 基础类
     "BaseRepository",
     "PaginationParams",
     "PaginationResult",
     "ModelType",
+    # 业务 Repository
+    "UserRepository",
+    "GroupRepository",
+    "GroupMemberRepository",
+    "MessageRepository",
 ]
-

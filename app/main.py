@@ -298,7 +298,7 @@ async def get_version() -> Dict[str, Any]:
 # ==================== WebSocket 路由 ====================
 
 from fastapi import WebSocket, WebSocketDisconnect
-from app.websocket import SimpleWebSocketHandler, manager
+from app.websocket import IMWebSocketHandler, manager
 
 
 @app.websocket("/ws/{user_id}")
@@ -336,8 +336,8 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
         }));
         ```
     """
-    # 创建处理器并处理连接
-    handler = SimpleWebSocketHandler(user_id)
+    # 创建 IM 处理器并处理连接
+    handler = IMWebSocketHandler(user_id)
     await handler.handle_connection(websocket)
 
 
@@ -362,10 +362,11 @@ async def websocket_stats() -> Dict[str, Any]:
 
 # ==================== API 路由注册 ====================
 
-# 这里可以注册其他 API 路由
-# 示例：
-# from app.api import router as api_router
-# app.include_router(api_router, prefix="/api/v1", tags=["API"])
+# 业务路由注册
+from app.api import user, group, message
+app.include_router(user.router, prefix="/api")
+app.include_router(group.router, prefix="/api")
+app.include_router(message.router, prefix="/api")
 
 
 # ==================== 导出 ====================

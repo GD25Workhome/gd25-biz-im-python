@@ -124,5 +124,50 @@ def generate_numeric_id(prefix: Optional[str] = None) -> str:
     return numeric_str
 
 
-__all__ = ["generate_id", "generate_short_id", "generate_numeric_id"]
+# ==================== 便捷函数 ====================
+
+def generate_user_id() -> str:
+    """
+    生成用户ID
+    
+    注意：user_id 字段限制为 48 字符，所以使用短ID格式。
+    
+    Returns:
+        str: 用户ID，格式：user_{short_uuid}（约20字符）
+    """
+    return generate_short_id("user", length=12)
+
+
+def generate_group_id() -> str:
+    """
+    生成群组ID
+    
+    注意：group_id 字段限制为 64 字符，可以使用完整格式。
+    
+    Returns:
+        str: 群组ID，格式：group_{timestamp}_{uuid}
+    """
+    return generate_id("group", include_timestamp=True)
+
+
+def generate_message_id() -> str:
+    """
+    生成消息ID
+    
+    注意：message_id 字段限制为 64 字符，可以使用完整格式。
+    
+    Returns:
+        str: 消息ID，格式：msg_{timestamp}_{uuid}
+    """
+    return generate_id("msg", include_timestamp=True)
+
+
+__all__ = [
+    "generate_id",
+    "generate_short_id",
+    "generate_numeric_id",
+    "generate_user_id",
+    "generate_group_id",
+    "generate_message_id",
+]
 
